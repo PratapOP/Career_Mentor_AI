@@ -1,0 +1,10 @@
+﻿[
+  {
+    "input": "Current role: junior software developer building internal dashboards in PHP and JavaScript. Career goal: transition into product management.",
+    "output": "Recommend highlighting cross-functional work, product decisions, and measurable outcomes. Add a section on stakeholder collaboration and roadmap planning."
+  },
+  {
+    "input": "Current role: business analyst working with SQL and reporting. Career goal: move into data science.",
+    "output": "Recommend listing data modeling projects, Python skills, and analysis outcomes. Emphasize training in machine learning and quantitative skills."
+  }
+]

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Mentor AI</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <main class="app-shell">
+        <section class="hero-panel">
+            <h1>Career Mentor AI</h1>
+            <p>Enter your current experience and career goal to receive tailored resume feedback and next-step recommendations.</p>
+        </section>
+
+        <section class="form-panel">
+            <form id="mentor-form">
+                <label>
+                    Full name
+                    <input type="text" id="name" name="name" placeholder="Jane Doe" required />
+                </label>
+
+                <label>
+                    Current resume summary
+                    <textarea id="resumeText" name="resumeText" rows="6" placeholder="Describe your current role, skills, and achievements" required></textarea>
+                </label>
+
+                <label>
+                    Target career path
+                    <input type="text" id="careerGoal" name="careerGoal" placeholder="e.g. Product Manager, Data Scientist" required />
+                </label>
+
+                <button type="submit">Get Mentor Feedback</button>
+            </form>
+        </section>
+
+        <section class="output-panel">
+            <h2>AI Feedback</h2>
+            <div id="results">Submit the form to receive recommendations.</div>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById('mentor-form');
+        const results = document.getElementById('results');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            results.textContent = 'Analyzing your input...';
+
+            const payload = {
+                name: document.getElementById('name').value.trim(),
+                resumeText: document.getElementById('resumeText').value.trim(),
+                careerGoal: document.getElementById('careerGoal').value.trim(),
+            };
+
+            try {
+                const response = await fetch('../backend/process.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    results.innerText = data.message;
+                } else {
+                    results.innerText = data.message || 'Unable to get a response from the server.';
+                }
+            } catch (error) {
+                results.innerText = 'Network error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
