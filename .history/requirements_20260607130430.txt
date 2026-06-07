@@ -1,0 +1,15 @@
+# Foundational Core Libraries
+torch>=2.0.0
+accelerate>=0.27.0
+
+# Hugging Face Ecosystem
+transformers>=4.40.0
+datasets>=2.18.0
+peft>=0.10.0
+trl>=0.8.0
+
+# Memory Optimization & Quantization
+bitsandbytes>=0.43.0
+
+# Backend Microservice Layer
+Flask>=3.0.0
