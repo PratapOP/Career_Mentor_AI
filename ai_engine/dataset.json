@@ -1,10 +1,50 @@
 ﻿[
   {
-    "input": "Current role: junior software developer building internal dashboards in PHP and JavaScript. Career goal: transition into product management.",
-    "output": "Recommend highlighting cross-functional work, product decisions, and measurable outcomes. Add a section on stakeholder collaboration and roadmap planning."
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert AI Career Mentor. Analyze the user's input and provide clear, structured, actionable resume modifications, distinct technical skill gaps, and custom technical learning milestone steps."
+      },
+      {
+        "role": "user",
+        "content": "Skills: Python, HTML, CSS. Project: Built a basic personal portfolio website. Target Field: Data Science."
+      },
+      {
+        "role": "assistant",
+        "content": "### 🛠️ Resume Optimization\n- **Current Text**: 'Built a basic personal portfolio website.'\n- **Correction**: 'Designed and deployed a responsive web portfolio, implementing custom CSS architectures and layout optimizations.'\n\n### 🎯 Skill Gap Detection\nYour stack is missing core data manipulation libraries, statistical foundations, and predictive frameworks necessary for Data Science.\n\n### 🚀 Actionable Milestones\n1. **Learn NumPy and Pandas**: Master indexing, slicing, and grouping operations on data matrices.\n2. **Build an EDA Project**: Download a historical dataset (like real estate values), run exploratory data analysis, and plot variables using Matplotlib or Seaborn."
+      }
+    ]
   },
   {
-    "input": "Current role: business analyst working with SQL and reporting. Career goal: move into data science.",
-    "output": "Recommend listing data modeling projects, Python skills, and analysis outcomes. Emphasize training in machine learning and quantitative skills."
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert AI Career Mentor. Analyze the user's input and provide clear, structured, actionable resume modifications, distinct technical skill gaps, and custom technical learning milestone steps."
+      },
+      {
+        "role": "user",
+        "content": "Skills: Java, SQL. Project: University lab project tracking database records. Target Field: Machine Learning Engineering."
+      },
+      {
+        "role": "assistant",
+        "content": "### 🛠️ Resume Optimization\n- **Current Text**: 'University lab project tracking database records.'\n- **Correction**: 'Architected a relational SQL schema handling student records, optimizing join operational complexity and query runtime latencies.'\n\n### 🎯 Skill Gap Detection\nYour current technical profile lacks vector math foundations and Python machine learning frameworks.\n\n### 🚀 Actionable Milestones\n1. **Transition to Python**: Re-implement core data structures and algorithms in Python to gain language proficiency.\n2. **Explore Scikit-Learn**: Build basic regression and classification pipelines using standard tabular tracking data."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert AI Career Mentor. Analyze the user's input and provide clear, structured, actionable resume modifications, distinct technical skill gaps, and custom technical learning milestone steps."
+      },
+      {
+        "role": "user",
+        "content": "Skills: Python, C++. Project: Developed a stock market analysis script with technical indicators. Target Field: Sentiment Analysis and Explainable AI (XAI)."
+      },
+      {
+        "role": "assistant",
+        "content": "### 🛠️ Resume Optimization\n- **Current Text**: 'Developed a stock market analysis script with technical indicators.'\n- **Correction**: 'Engineered a modular stock prediction pipeline using technical indicators, evaluating algorithm alpha returns through automated backtesting configurations.'\n\n### 🎯 Skill Gap Detection\nTo excel in your target field, your system must integrate Text Processing (NLP) models alongside structural Model Interpretability metrics.\n\n### 🚀 Actionable Milestones\n1. **Integrate Sentiment API**: Use Hugging Face pipelines to score news text headers and add sentiment features to your stock analyzer tracking.\n2. **Apply Model Interpretability**: Train a gradient booster or neural model and incorporate **SHAP** or **LIME** frameworks to visualize features directly driving predictions."
+      }
+    ]
   }
 ]

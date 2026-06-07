@@ -1,113 +1,208 @@
-﻿:root {
-    color-scheme: dark;
-    font-family: Inter, system-ui, sans-serif;
-    background: #080c11;
-    color: #f3f3f3;
+﻿/* ==========================================================================
+   1. SYSTEM VARIABLES & RESET
+   ========================================================================== */
+:root {
+    --bg-dark: #0D0D0D;       /* From Palette: Deep Cyber Black */
+    --accent-neon: #C22755;   /* From Palette: Crimson Magenta */
+    --text-primary: #EDEDED;  /* From Palette: High-Contrast Platinum */
+    --text-muted: #E2E2E2;     /* From Palette: Synth Grey */
+    --panel-bg: rgba(20, 20, 20, 0.6);
+    --border-glow: rgba(194, 39, 85, 0.3);
 }
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace; /* Monospaced for coding aesthetic */
 }
 
 body {
-    margin: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 24px;
-    background: radial-gradient(circle at top, #1b2330 0%, #080c11 60%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
-.app-shell {
-    width: min(100%, 980px);
-    display: grid;
-    gap: 24px;
-    padding: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    background: rgba(9, 12, 18, 0.96);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-}
-
-.hero-panel,
-.form-panel,
-.output-panel {
-    background: rgba(20, 25, 35, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
-    padding: 22px;
-}
-
-.hero-panel h1 {
-    margin: 0 0 12px;
-    color: #f8b4ff;
-    font-size: clamp(2rem, 2.8vw, 3rem);
-}
-
-.hero-panel p {
-    margin: 0;
-    color: #c5c9d1;
-    line-height: 1.65;
-}
-
-label {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 18px;
-    font-size: 0.98rem;
-    color: #dde1e6;
-}
-
-input,
-textarea {
+/* ==========================================================================
+   2. TERMINAL LAYOUT
+   ========================================================================== */
+.terminal-container {
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 14px 16px;
-    background: rgba(28, 35, 46, 0.96);
-    color: #f2f2f2;
-    font: inherit;
+    max-width: 1200px;
+    background: var(--panel-bg);
+    border: 1px solid var(--accent-neon);
+    border-radius: 8px;
+    box-shadow: 0 0 20px var(--border-glow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-textarea {
-    resize: vertical;
+.terminal-header {
+    background-color: #141414;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(194, 39, 85, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-button {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #d84a7e 0%, #ff85c1 100%);
-    color: #fff;
-    font-weight: 700;
-    padding: 16px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-neon);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-neon);
+    animation: blink 1.5s infinite;
 }
 
-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 20px 40px rgba(216, 74, 126, 0.28);
+.system-title {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
 }
 
-.output-panel h2 {
-    margin-top: 0;
-    color: #f4c1ff;
+.terminal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Side-by-side splitting panels */
+    gap: 0;
+    min-height: 550px;
 }
 
-#results {
-    min-height: 160px;
-    white-space: pre-wrap;
-    line-height: 1.65;
-    color: #e5e7eb;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-@media (max-width: 720px) {
-    body {
-        padding: 14px;
+@media (max-width: 768px) {
+    .terminal-body {
+        grid-template-columns: 1fr; /* Stack vertically on smaller displays */
     }
+}
+
+/* ==========================================================================
+   3. PANELS & FORMS UI
+   ========================================================================== */
+.panel {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-panel {
+    border-right: 1px solid rgba(194, 39, 85, 0.2);
+}
+
+@media (max-width: 768px) {
+    .input-panel {
+        border-right: none;
+        border-bottom: 1px solid rgba(194, 39, 85, 0.2);
+    }
+}
+
+.panel-title {
+    font-size: 1.1rem;
+    color: var(--accent-neon);
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(194, 39, 85, 0.5);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.input-group input, 
+.input-group textarea {
+    background-color: #050505;
+    border: 1px solid rgba(226, 226, 226, 0.2);
+    padding: 12px;
+    color: var(--text-primary);
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    border-color: var(--accent-neon);
+    box-shadow: 0 0 8px rgba(194, 39, 85, 0.2);
+}
+
+/* Customizing scrollbar for textareas */
+textarea {
+    resize: none;
+}
+
+.submit-btn {
+    background-color: transparent;
+    border: 1px solid var(--accent-neon);
+    color: var(--accent-neon);
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: var(--accent-neon);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--accent-neon);
+}
+
+/* ==========================================================================
+   4. OUTPUT DISPLAY GRAPHICS
+   ========================================================================== */
+.output-panel {
+    background-color: #080808;
+    position: relative;
+}
+
+.output-screen {
+    flex-grow: 1;
+    padding: 15px;
+    background-color: #040404;
+    border: 1px solid rgba(226, 226, 226, 0.1);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-y: auto;
+    color: var(--text-muted);
+}
+
+.terminal-prompt {
+    color: rgba(222, 222, 222, 0.4);
+    font-style: italic;
+}
+
+/* Scanline visual effect overlay */
+.output-panel::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   5. SYSTEM ANIMATIONS
+   ========================================================================== */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
