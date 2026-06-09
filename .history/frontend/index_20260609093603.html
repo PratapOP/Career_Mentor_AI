@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureCareer AI // Terminal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="status-indicator"></div>
+            <span class="system-title">SYSTEM://FUTURE_CAREER_CORE_v1.0.0</span>
+        </header>
+
+        <main class="terminal-body">
+            
+            <section class="panel input-panel">
+                <h2 class="panel-title">> INITIALIZE_INPUT_SEQUENCE</h2>
+                
+                <form id="mentorForm">
+                    <div class="input-group">
+                        <label for="skills">_CURRENT_SKILLS</label>
+                        <input type="text" id="skills" name="skills" placeholder="e.g., Python, C++, HTML, CSS" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="project">_RECENT_PROJECT_DESCRIPTION</label>
+                        <textarea id="project" name="project" rows="4" placeholder="e.g., Built a basic stock analyzer script with simple indicators" required></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="target">_TARGET_ROLE_OR_FIELD</label>
+                        <input type="text" id="target" name="target" placeholder="e.g., Predictive Modeling, Explainable AI" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">EXECUTE_OPTIMIZATION</button>
+                </form>
+            </section>
+
+            <section class="panel output-panel">
+                <h2 class="panel-title">> MENTOR_FEEDBACK_STREAM</h2>
+                <div class="output-screen" id="outputScreen">
+                    <div class="terminal-prompt">Awaiting core system execution command...</div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
