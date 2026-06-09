@@ -12,16 +12,15 @@
     <div class="terminal-container">
 
         <header class="terminal-header">
-
             <div class="status-indicator"></div>
-
             <span class="system-title">
                 SYSTEM://CAREER_MENTOR_AI_v2.0
             </span>
-
         </header>
 
         <main class="terminal-body">
+
+            <!-- INPUT PANEL -->
 
             <section class="panel input-panel">
 
@@ -32,59 +31,59 @@
                 <form id="mentorForm">
 
                     <div class="input-group">
-
                         <label for="skills">
-                            CURRENT SKILLS
+                            CURRENT_SKILLS
                         </label>
 
                         <input
                             type="text"
                             id="skills"
-                            placeholder="Python, SQL, Flask, React"
+                            name="skills"
+                            placeholder="Python, SQL, Java, React..."
                             required
                         >
-
                     </div>
 
                     <div class="input-group">
-
                         <label for="project">
-                            RECENT PROJECT
+                            RECENT_PROJECT
                         </label>
 
                         <textarea
                             id="project"
+                            name="project"
+                            rows="5"
                             placeholder="Describe your latest project..."
                             required
                         ></textarea>
-
                     </div>
 
                     <div class="input-group">
-
                         <label for="target">
-                            TARGET ROLE
+                            TARGET_ROLE
                         </label>
 
                         <input
                             type="text"
                             id="target"
+                            name="target"
                             placeholder="Machine Learning Engineer"
                             required
                         >
-
                     </div>
 
                     <button
                         type="submit"
                         class="submit-btn"
                     >
-                        ANALYZE PROFILE
+                        ANALYZE_PROFILE
                     </button>
 
                 </form>
 
             </section>
+
+            <!-- OUTPUT PANEL -->
 
             <section class="panel output-panel">
 
@@ -93,14 +92,12 @@
                 </h2>
 
                 <div
-                    id="outputScreen"
                     class="output-screen"
+                    id="outputScreen"
                 >
-
                     <div class="terminal-prompt">
-                        Waiting for analysis...
+                        Awaiting analysis request...
                     </div>
-
                 </div>
 
             </section>
