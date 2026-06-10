@@ -2,10 +2,7 @@ const API_BASE_URL = "http://127.0.0.1:5000";
 
 const form = document.getElementById("mentorForm");
 const atsButton = document.getElementById("atsButton");
-const interviewButton = document.getElementById("interviewButton");
-
 const outputScreen = document.getElementById("outputScreen");
-
 
 function escapeHtml(text) {
 
@@ -14,7 +11,6 @@ function escapeHtml(text) {
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 }
-
 
 function showLoading(message = "Processing Request...") {
 
@@ -33,7 +29,6 @@ function showLoading(message = "Processing Request...") {
     `;
 }
 
-
 function showError(message) {
 
     outputScreen.innerHTML = `
@@ -50,7 +45,6 @@ function showError(message) {
         </div>
     `;
 }
-
 
 function renderAnalysis(data) {
 
@@ -69,10 +63,9 @@ function renderAnalysis(data) {
     `;
 }
 
-
 function renderATS(data) {
 
-    const detectedSkills = data.detected_skills
+    const skills = data.detected_skills
         .map(skill => `
             <span class="badge">
                 ${escapeHtml(skill)}
@@ -80,7 +73,7 @@ function renderATS(data) {
         `)
         .join("");
 
-    const missingSkills = data.missing_keywords
+    const missing = data.missing_keywords
         .map(skill => `
             <span class="badge">
                 ${escapeHtml(skill)}
@@ -108,23 +101,29 @@ function renderATS(data) {
 
             <br>
 
-            <strong>Detected Skills</strong>
+            <strong>
+                Detected Skills
+            </strong>
 
             <br><br>
 
-            ${detectedSkills || "None"}
+            ${skills || "None"}
 
             <br><br>
 
-            <strong>Missing Keywords</strong>
+            <strong>
+                Missing Keywords
+            </strong>
 
             <br><br>
 
-            ${missingSkills || "None"}
+            ${missing || "None"}
 
             <br><br>
 
-            <strong>Suggestions</strong>
+            <strong>
+                Suggestions
+            </strong>
 
             <ul>
                 ${feedback}
@@ -134,62 +133,14 @@ function renderATS(data) {
     `;
 }
 
-
-function renderInterviewPrep(data) {
-
-    const technicalQuestions = data.technical_questions
-        .map(question => `
-            <li>${escapeHtml(question)}</li>
-        `)
-        .join("");
-
-    const behavioralQuestions = data.behavioral_questions
-        .map(question => `
-            <li>${escapeHtml(question)}</li>
-        `)
-        .join("");
-
-    outputScreen.innerHTML = `
-        <div class="card">
-
-            <div class="card-title">
-                Interview Preparation
-            </div>
-
-            <p>
-                <strong>Target Role:</strong>
-                ${escapeHtml(data.target_role)}
-            </p>
-
-            <br>
-
-            <strong>
-                Technical Questions
-            </strong>
-
-            <ol>
-                ${technicalQuestions}
-            </ol>
-
-            <br>
-
-            <strong>
-                Behavioral Questions
-            </strong>
-
-            <ol>
-                ${behavioralQuestions}
-            </ol>
-
-        </div>
-    `;
-}
-
-
-async function postRequest(endpoint, payload) {
+async function getCareerAnalysis(
+    skills,
+    project,
+    target
+) {
 
     const response = await fetch(
-        `${API_BASE_URL}${endpoint}`,
+        `${API_BASE_URL}/api/analyze`,
         {
             method: "POST",
 
@@ -198,7 +149,11 @@ async function postRequest(endpoint, payload) {
                     "application/json"
             },
 
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                skills,
+                project_description: project,
+                target_focus: target
+            })
         }
     );
 
@@ -208,13 +163,47 @@ async function postRequest(endpoint, payload) {
 
         throw new Error(
             data.error ||
-            "Request failed."
+            "Analysis failed."
         );
     }
 
     return data;
 }
 
+async function getATSAnalysis(
+    resumeText,
+    targetRole
+) {
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/ats`,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+                resume_text: resumeText,
+                target_role: targetRole
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error ||
+            "ATS analysis failed."
+        );
+    }
+
+    return data;
+}
 
 form.addEventListener(
     "submit",
@@ -243,14 +232,12 @@ form.addEventListener(
                 "Generating Career Analysis..."
             );
 
-            const analysis = await postRequest(
-                "/api/analyze",
-                {
-                    skills: skills,
-                    project_description: project,
-                    target_focus: target
-                }
-            );
+            const analysis =
+                await getCareerAnalysis(
+                    skills,
+                    project,
+                    target
+                );
 
             renderAnalysis(
                 analysis
@@ -264,7 +251,6 @@ form.addEventListener(
         }
     }
 );
-
 
 atsButton.addEventListener(
     "click",
@@ -299,52 +285,13 @@ ${project}
                 "Running ATS Analysis..."
             );
 
-            const result = await postRequest(
-                "/api/ats",
-                {
-                    resume_text: resumeText,
-                    target_role: target
-                }
-            );
+            const result =
+                await getATSAnalysis(
+                    resumeText,
+                    target
+                );
 
             renderATS(
-                result
-            );
-
-        } catch(error) {
-
-            showError(
-                error.message
-            );
-        }
-    }
-);
-
-
-interviewButton.addEventListener(
-    "click",
-    async function() {
-
-        const target = document
-            .getElementById("target")
-            .value
-            .trim();
-
-        try {
-
-            showLoading(
-                "Generating Interview Questions..."
-            );
-
-            const result = await postRequest(
-                "/api/interview",
-                {
-                    target_role: target,
-                    experience_level: "beginner"
-                }
-            );
-
-            renderInterviewPrep(
                 result
             );
 

@@ -146,34 +146,34 @@ class CareerMentor:
         }
     ]
 
-    prompt = self.tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-
-    inputs = self.tokenizer(
-        prompt,
-        return_tensors="pt"
-    ).to(self.device)
-
-    prompt_length = inputs.input_ids.shape[1]
-
-    with torch.no_grad():
-
-        outputs = self.model.generate(
-            **inputs,
-            max_new_tokens=512,
-            temperature=0.3,
-            top_p=0.9,
-            do_sample=True
+        prompt = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
         )
 
-    generated_tokens = outputs[0][prompt_length:]
+        inputs = self.tokenizer(
+            prompt,
+            return_tensors="pt"
+        ).to(self.device)
 
-    response = self.tokenizer.decode(
-        generated_tokens,
-        skip_special_tokens=True
-    )
+        prompt_length = inputs.input_ids.shape[1]
 
-    return response.strip()
+        with torch.no_grad():
+
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=512,
+                temperature=0.3,
+                top_p=0.9,
+                do_sample=True
+            )
+
+        generated_tokens = outputs[0][prompt_length:]
+
+        response = self.tokenizer.decode(
+            generated_tokens,
+            skip_special_tokens=True
+        )
+
+        return response.strip()

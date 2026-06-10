@@ -1,4 +1,4 @@
-﻿<form id="mentorForm">
+<form id="mentorForm">
 
     <div class="input-group">
 

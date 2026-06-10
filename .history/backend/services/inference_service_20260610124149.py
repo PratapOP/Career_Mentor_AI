@@ -114,66 +114,56 @@ class CareerMentor:
         )
 
     def generate(
-    self,
-    skills,
-    project_description,
-    target_focus
-):
+        self,
+        skills,
+        project_description,
+        target_focus
+    ):
 
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You are Career Mentor AI. "
-                "Provide concise career guidance. "
-                "Structure your response using these headings:\n\n"
-                "Resume Improvements:\n"
-                "Skill Gaps:\n"
-                "Learning Roadmap:\n"
-                "Project Recommendations:\n\n"
-                "Do not repeat the user's input. "
-                "Do not include system messages. "
-                "Do not include user messages."
-            )
-        },
-        {
-            "role": "user",
-            "content": (
-                f"Skills: {skills}\n"
-                f"Project: {project_description}\n"
-                f"Target Role: {target_focus}"
-            )
-        }
-    ]
+        messages = [
+            {
+                "role": "system",
+                "content":
+                (
+                    "You are an expert AI Career Mentor. "
+                    "Provide resume improvements, "
+                    "skill gap analysis, "
+                    "learning roadmap, "
+                    "and project recommendations."
+                )
+            },
+            {
+                "role": "user",
+                "content":
+                (
+                    f"Skills: {skills}\n"
+                    f"Project: {project_description}\n"
+                    f"Target Role: {target_focus}"
+                )
+            }
+        ]
 
-    prompt = self.tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-
-    inputs = self.tokenizer(
-        prompt,
-        return_tensors="pt"
-    ).to(self.device)
-
-    prompt_length = inputs.input_ids.shape[1]
-
-    with torch.no_grad():
-
-        outputs = self.model.generate(
-            **inputs,
-            max_new_tokens=512,
-            temperature=0.3,
-            top_p=0.9,
-            do_sample=True
+        prompt = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
         )
 
-    generated_tokens = outputs[0][prompt_length:]
+        inputs = self.tokenizer(
+            prompt,
+            return_tensors="pt"
+        ).to(self.device)
 
-    response = self.tokenizer.decode(
-        generated_tokens,
-        skip_special_tokens=True
-    )
+        with torch.no_grad():
 
-    return response.strip()
+            outputs = self.model.generate(
+                **inputs,
+                **GENERATION_CONFIG
+            )
+
+        generated_text = self.tokenizer.decode(
+            outputs[0],
+            skip_special_tokens=True
+        )
+
+        return generated_text.strip()
